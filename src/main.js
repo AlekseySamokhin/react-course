@@ -1,21 +1,18 @@
 import React from "react";
 import ReactDom from "react-dom";
 
-import UserCard from "./UserCard";
-import CounterClass from "./CounterClass";
-import CounterFn from "./CounterFn";
+import Counter from "./counter/index.js";
 
 ReactDom.render(
   <div className="some">
-    <h2>Hello, World!</h2>
+    <h2>Сounter</h2>
     <hr />
-    <CounterClass />
-    <CounterFn />
+    <h3>values: min=1 max=5</h3>
     <hr />
-    <div>Text</div>
-    <UserCard name="Dmitriy" text="Hi there" />
-    <UserCard name="Dmitrifffy" text="Hi tfffhere" />
-    <UserCard name="Dmitrfddaafdaiy" text="Hi tagdagaagdsaghere" />
+    <Counter min={1} max={10} />
+    <hr />
+    <Counter min={0} max={100} />
+    <hr />
   </div>,
   document.querySelector(".app")
 );
