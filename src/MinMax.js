@@ -1,5 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+
+function MinMax({ min = 1, max, current, onChange }) {
+	let [inpVal, setInpVal] = useState(current);
+	let onInput = (e) => setInpVal(e.target.value);
+
+	function onKeyPress(e) {
+		if (e.key === "Enter") {
+			parseCurrentStr(e);
+		}
+	}
+
+	function parseCurrentStr() {
+		let num = parseInt(inpVal);
+		applyCurrent(isNaN(num) ? min : num);
+	}
+
+	function applyCurrent(num) {
+		let validNum = Math.max(min, Math.min(max, num));
+		setInpVal(validNum);
+		onChange(validNum);
+	}
+
+	let inc = () => applyCurrent(current + 1);
+	let dec = () => applyCurrent(current - 1);
+
+	useEffect(() => {
+		setInpVal(current);
+	}, [current]);
+
+	return (
+		<div>
+			<button type="button" onClick={dec}>
+				-
+			</button>
+			<input
+				type="text"
+				value={inpVal}
+				onChange={onInput}
+				onBlur={parseCurrentStr}
+				onKeyPress={onKeyPress}
+			/>
+			<button type="button" onClick={inc}>
+				+
+			</button>
+		</div>
+	);
+}
 
 MinMax.propTypes = {
 	min: PropTypes.number,
@@ -7,32 +54,5 @@ MinMax.propTypes = {
 	current: PropTypes.number.isRequired,
 	onChange: PropTypes.func.isRequired,
 };
-
-function MinMax({ min = 1, max, current, onChange }) {
-	function applyCurrent(num) {
-		let validNum = Math.max(min, Math.min(max, num));
-		onChange(validNum);
-	}
-
-	function parseCurrentStr(e) {
-		let num = parseInt(e.target.value);
-		applyCurrent(isNaN(num) ? min : num);
-	}
-
-	let inc = () => applyCurrent(current + 1);
-	let dec = () => applyCurrent(current - 1);
-
-	return (
-		<div>
-			<button type="button" onClick={dec}>
-				-
-			</button>
-			<input type="text" value={current} onChange={parseCurrentStr} />
-			<button type="button" onClick={inc}>
-				+
-			</button>
-		</div>
-	);
-}
 
 export default MinMax;
